@@ -1,0 +1,60 @@
+name: PrestaFlow — psflowdemo
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  smoke:
+    name: Smoke (no Flashlight)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: gd
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PrestaFlow (no Flashlight)
+        uses: PrestaFlow/github-action@main
+        with:
+          token: ${{ secrets.PRESTAFLOW_TOKEN }}
+          projectId: ${{ secrets.PRESTAFLOW_PROJECT_ID }}
+          flashlight: false
+          upload-artifacts: true
+
+  journey:
+    name: Buyer journey (Flashlight, PS 9.0.0)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: gd
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PrestaFlow (Flashlight)
+        uses: PrestaFlow/github-action@main
+        with:
+          token: ${{ secrets.PRESTAFLOW_TOKEN }}
+          projectId: ${{ secrets.PRESTAFLOW_PROJECT_ID }}
+          flashlight: true
+          ps-version: '9.0.0'
+          upload-artifacts: true

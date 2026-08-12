@@ -1,0 +1,31 @@
+{
+    "name": "prestaflow/psflowdemo",
+    "description": "Minimal PrestaShop module used as the PrestaFlow reference demo.",
+    "license": "MIT",
+    "type": "prestashop-module",
+    "autoload-dev": {
+        "psr-4": {
+            "PsFlowDemo\\Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/PrestaFlow/php-library"
+        }
+    ],
+    "require-dev": {
+        "prestaflow/php-library": "dev-dev"
+    },
+    "scripts": {
+        "prestaflow:json:file": "./vendor/prestaflow/php-library/bin/prestaflow run --output=JSON ./tests --file"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "platform-check": false
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
