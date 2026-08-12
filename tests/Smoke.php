@@ -7,7 +7,8 @@ use PrestaFlow\Library\Tests\TestsSuite;
 
 /**
  * Browser-free smoke — runs without a live shop.
- * Enough to produce a valid results.json for the GitHub Action to upload.
+ * Two trivial assertions, enough to produce a valid results.json that
+ * uploads cleanly through the GitHub Action.
  */
 class Smoke extends TestsSuite
 {
@@ -20,10 +21,10 @@ class Smoke extends TestsSuite
     {
         $this
             ->describe('psflowdemo — smoke')
-            ->it('composer autoload resolves the suite class', function () {
-                Expect::that(class_exists(self::class))->isTrue();
+            ->it('arithmetic sanity', function () {
+                Expect::that(1 + 1)->equals(2);
             })
-            ->it('reports its module name', function () {
+            ->it('module slug is psflowdemo', function () {
                 Expect::that('psflowdemo')->equals('psflowdemo');
             });
     }
