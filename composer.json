@@ -5,7 +5,7 @@
     "type": "prestashop-module",
     "autoload-dev": {
         "psr-4": {
-            "PsFlowDemo\\Tests\\": "tests/"
+            "Tests\\": "tests/prestaflow/"
         }
     },
     "repositories": [
@@ -18,13 +18,21 @@
         "prestaflow/php-library": "dev-dev"
     },
     "scripts": {
-        "prestaflow:json:file": "./vendor/prestaflow/php-library/bin/prestaflow run --output=JSON ./tests --file"
+        "prestaflow": "./vendor-dev/prestaflow/php-library/bin/prestaflow run tests/prestaflow",
+        "prestaflow:smoke": "./vendor-dev/prestaflow/php-library/bin/prestaflow run tests/prestaflow/Suites/Smoke.php",
+        "prestaflow:json:file": "./vendor-dev/prestaflow/php-library/bin/prestaflow run --output=JSON ./tests --file"
+    },
+    "scripts-descriptions": {
+        "prestaflow": "Run every PrestaFlow suite (needs a running shop, see .env.example).",
+        "prestaflow:smoke": "Run the browser-free smoke suite only.",
+        "prestaflow:json:file": "Run every suite and write prestaflow/results.json (used by PrestaFlow/github-action)."
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "platform-check": false
+        "platform-check": false,
+        "vendor-dir": "vendor-dev"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
