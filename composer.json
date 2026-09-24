@@ -18,12 +18,14 @@
         "prestaflow/php-library": "dev-dev"
     },
     "scripts": {
-        "prestaflow": "./vendor-dev/prestaflow/php-library/bin/prestaflow run tests/prestaflow",
-        "prestaflow:smoke": "./vendor-dev/prestaflow/php-library/bin/prestaflow run tests/prestaflow/Suites/Smoke.php",
-        "prestaflow:json:file": "./vendor-dev/prestaflow/php-library/bin/prestaflow run --output=JSON ./tests --file"
+        "prestaflow": "./vendor-dev/prestaflow/php-library/bin/prestaflow",
+        "prestaflow:all": "@prestaflow run tests/prestaflow",
+        "prestaflow:smoke": "@prestaflow run tests/prestaflow/Suites/Smoke.php",
+        "prestaflow:json:file": "@prestaflow run --output=JSON ./tests --file"
     },
     "scripts-descriptions": {
-        "prestaflow": "Run every PrestaFlow suite (needs a running shop, see .env.example).",
+        "prestaflow": "The PrestaFlow CLI: composer prestaflow -- run tests/prestaflow [options].",
+        "prestaflow:all": "Run every PrestaFlow suite (needs a running shop, see .env.example).",
         "prestaflow:smoke": "Run the browser-free smoke suite only.",
         "prestaflow:json:file": "Run every suite and write prestaflow/results.json (used by PrestaFlow/github-action)."
     },
@@ -32,7 +34,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "platform-check": false,
-        "vendor-dir": "vendor-dev"
+        "vendor-dir": "vendor-dev",
+        "process-timeout": 0
     },
     "minimum-stability": "dev",
     "prefer-stable": true
