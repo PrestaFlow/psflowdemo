@@ -70,11 +70,12 @@ php bin/console prestashop:module install psflowdemo
 ```bash
 composer install
 cp .env.example .env    # then point it to your shop
-composer prestaflow     # every suite in tests/prestaflow
+composer prestaflow:all     # every suite in tests/prestaflow
 composer prestaflow:smoke   # browser-free suite only, no shop needed
+composer prestaflow -- run tests/prestaflow --group checkout   # any CLI call
 ```
 
-`composer prestaflow` runs `./vendor-dev/prestaflow/php-library/bin/prestaflow run tests/prestaflow`. Results land in `prestaflow/` (git-ignored). You need Chrome or Chromium on the machine.
+`composer prestaflow` is the PrestaFlow CLI itself (`./vendor-dev/prestaflow/php-library/bin/prestaflow`): everything after `--` is passed to it. `process-timeout` is set to 0, otherwise Composer would kill a run after 300 seconds. Results land in `prestaflow/` (git-ignored). You need Chrome or Chromium on the machine.
 
 Why `vendor-dev/` and not `vendor/`: when the module directory is mounted in a shop (Flashlight, local stack), PrestaShop includes `modules/<module>/vendor/autoload.php` for every installed module. The PrestaFlow library pulls Symfony 6 components that clash with the shop's own and crash it (checked on PrestaShop 8.1.7). Keeping dev dependencies in `vendor-dev/` avoids that.
 
