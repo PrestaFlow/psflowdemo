@@ -2,12 +2,12 @@
 <module>
     <name>psflowdemo</name>
     <displayName><![CDATA[PrestaFlow Demo]]></displayName>
-    <version><![CDATA[1.0.0]]></version>
-    <description><![CDATA[Minimal reference module for PrestaFlow demos.]]></description>
+    <version><![CDATA[1.1.0]]></version>
+    <description><![CDATA[Displays a block with a configurable title on the home page. Reference module for the PrestaFlow end-to-end demos.]]></description>
     <author><![CDATA[PrestaFlow]]></author>
     <tab><![CDATA[front_office_features]]></tab>
-    <confirmUninstall><![CDATA[Uninstall PrestaFlow demo module?]]></confirmUninstall>
-    <is_configurable>0</is_configurable>
+    <confirmUninstall><![CDATA[Uninstall the PrestaFlow demo module?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
     <need_instance>0</need_instance>
     <limited_countries></limited_countries>
 </module>
