@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   smoke:
-    name: Smoke (no Flashlight)
+    name: Smoke (no browser, no shop)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,20 +23,23 @@ jobs:
           extensions: gd
           tools: composer:v2
 
+      - name: Lint module sources
+        run: find . -name '*.php' -not -path './vendor-dev/*' -print0 | xargs -0 -n1 php -l
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Run PrestaFlow (no Flashlight)
-        uses: PrestaFlow/github-action@main
-        with:
-          token: ${{ secrets.PRESTAFLOW_TOKEN }}
-          projectId: ${{ secrets.PRESTAFLOW_PROJECT_ID }}
-          flashlight: false
-          upload-artifacts: true
+      - name: Run the smoke suite
+        run: composer prestaflow:smoke
 
-  journey:
-    name: Buyer journey (Flashlight, PS 9.0.0)
+  e2e:
+    name: E2E — PrestaShop ${{ matrix.ps-version }} (Flashlight)
+    needs: smoke
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ps-version: ['1.7.8.11', '8.1.7', '9.0.0']
     steps:
       - uses: actions/checkout@v4
 
@@ -47,8 +50,21 @@ jobs:
           extensions: gd
           tools: composer:v2
 
+      # Dev dependencies go to vendor-dev/ (see composer.json): the workspace is
+      # mounted as modules/psflowdemo, and PrestaShop includes the
+      # vendor/autoload.php of every installed module.
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
+
+      # The Action injects PRESTAFLOW_FO_URL and PRESTAFLOW_PS_VERSION; the
+      # back-office credentials and locale of a Flashlight shop go in .env.
+      - name: Flashlight credentials
+        run: |
+          {
+            echo 'PRESTAFLOW_LOCALE=en'
+            echo 'PRESTAFLOW_BO_EMAIL=admin@prestashop.com'
+            echo 'PRESTAFLOW_BO_PASSWD=prestashop'
+          } > .env
 
       - name: Run PrestaFlow (Flashlight)
         uses: PrestaFlow/github-action@main
@@ -56,5 +72,6 @@ jobs:
           token: ${{ secrets.PRESTAFLOW_TOKEN }}
           projectId: ${{ secrets.PRESTAFLOW_PROJECT_ID }}
           flashlight: true
-          ps-version: '9.0.0'
+          ps-version: ${{ matrix.ps-version }}
+          flashlight-init-scripts: ./tests/flashlight-init
           upload-artifacts: true
