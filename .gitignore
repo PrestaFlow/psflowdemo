@@ -1,4 +1,7 @@
 /vendor/
 composer.lock
 .DS_Store
-prestaflow/
+/prestaflow/
+/vendor-dev/
+.env
+.env.local
