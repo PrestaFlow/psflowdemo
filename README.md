@@ -72,7 +72,7 @@ composer install
 cp .env.example .env    # then point it to your shop
 composer prestaflow:all     # every suite in tests/prestaflow
 composer prestaflow:smoke   # browser-free suite only, no shop needed
-composer prestaflow -- run tests/prestaflow --group checkout   # any CLI call
+composer prestaflow -- run ./tests/prestaflow --group checkout   # any CLI call
 ```
 
 `composer prestaflow` is the PrestaFlow CLI itself (`./vendor-dev/prestaflow/php-library/bin/prestaflow`): everything after `--` is passed to it. `process-timeout` is set to 0, otherwise Composer would kill a run after 300 seconds. Results land in `prestaflow/` (git-ignored). You need Chrome or Chromium on the machine.
