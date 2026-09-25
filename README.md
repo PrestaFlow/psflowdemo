@@ -39,7 +39,7 @@ psflowdemo/
 ├── composer.json                  prestaflow/php-library as a dev dependency, in vendor-dev/
 ├── .env.example                   PRESTAFLOW_* variables, copy to .env
 └── tests/
-    ├── flashlight-init/           Flashlight init-scripts: install the module, seed PSFLOWDEMO_TITLE
+    ├── flashlight-init/           Flashlight init-scripts: install the module, seed PSFLOWDEMO_TITLE, enable payment
     └── prestaflow/                autoloaded as Tests\ (PSR-4)
         ├── Pages/
         │   ├── Common/Modules/Psflowdemo/Configuration/Page.php   shared BO page logic
@@ -110,7 +110,8 @@ Notes:
 
 - The suites that change the title put the default back at the end, so a re-run against the same shop starts from a known state.
 - Flashlight compiles Smarty templates once: after editing `displayHome.tpl`, clear `var/cache/*/smarty` in the container.
-- A fresh Flashlight shop has no payment module configured, so the `Checkout` suite stops at the payment step there.
+- A fresh Flashlight shop is installed with GB as its country, and its payment modules are restricted to GB only; France is not even active on the 1.7.8.11 image. The `Checkout` suite ships a French address, so it would find no payment method. `tests/flashlight-init/30-enable-payment.sh` activates France and opens the payment modules to every active country. With it, `Checkout` passes end to end on 8.1.7 (and fails at the address step without it).
+- On 1.7.8.11 and 9.0.0, `Checkout` currently fails earlier, at "add a product to the cart" ("The page was closed and is not available anymore"): a library issue, unrelated to payment.
 
 ## CI
 
